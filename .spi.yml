@@ -1,0 +1,10 @@
+# Swift Package Index configuration. With `documentation_targets` set, SPI builds
+# and hosts the DocC reference for ExpysSDK and renders the platform- and
+# Swift-version-compatibility badges. SPI provides the Swift-DocC plugin itself,
+# so the package keeps a zero-dependency graph for consumers (the plugin is gated
+# behind EXPYS_BUILD_DOCS in Package.swift for local/CI doc builds only).
+version: 1
+builder:
+  configs:
+    - documentation_targets:
+        - ExpysSDK

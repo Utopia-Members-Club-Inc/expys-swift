@@ -1,0 +1,6 @@
+.build/
+.gen-tmp/
+.swiftpm/
+*.xcodeproj
+Package.resolved
+.docc-build/
