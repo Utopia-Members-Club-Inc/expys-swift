@@ -1,19 +1,19 @@
-# ExpysSDK (Swift)
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/expys-logo-white.svg" />
+    <img alt="Expys" src="assets/expys-logo-black.svg" width="150" />
+  </picture>
+</p>
 
-[![SDK CI](https://github.com/Utopia-Members-Club-Inc/utopia/actions/workflows/sdk-ci.yml/badge.svg)](https://github.com/Utopia-Members-Club-Inc/utopia/actions/workflows/sdk-ci.yml)
-[![SwiftPM compatible](https://img.shields.io/badge/SwiftPM-compatible-brightgreen.svg)](https://swift.org/package-manager/)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
+<h1 align="center">ExpysSDK · Swift</h1>
 
-<!--
-The badges below go live once the public `expys-swift` mirror is registered on the
-Swift Package Index and the repo is connected to Codecov + CocoaPods Trunk (see
-CONTRIBUTING.md and sdk-ci.yml). Uncomment them then.
-
-[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FUtopia-Members-Club-Inc%2Fexpys-swift%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/Utopia-Members-Club-Inc/expys-swift)
-[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FUtopia-Members-Club-Inc%2Fexpys-swift%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/Utopia-Members-Club-Inc/expys-swift)
-[![codecov](https://codecov.io/gh/Utopia-Members-Club-Inc/utopia/branch/main/graph/badge.svg?flag=sdk-swift)](https://codecov.io/gh/Utopia-Members-Club-Inc/utopia)
-[![CocoaPods](https://img.shields.io/cocoapods/v/ExpysSDK.svg)](https://cocoapods.org/pods/ExpysSDK)
--->
+<p align="center">
+  <a href="https://swiftpackageindex.com/Utopia-Members-Club-Inc/expys-swift"><img alt="platforms" src="https://img.shields.io/endpoint?style=flat-square&url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FUtopia-Members-Club-Inc%2Fexpys-swift%2Fbadge%3Ftype%3Dplatforms" /></a>
+  <a href="https://swiftpackageindex.com/Utopia-Members-Club-Inc/expys-swift"><img alt="swift versions" src="https://img.shields.io/endpoint?style=flat-square&url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2FUtopia-Members-Club-Inc%2Fexpys-swift%2Fbadge%3Ftype%3Dswift-versions" /></a>
+  <a href="https://cocoapods.org/pods/ExpysSDK"><img alt="CocoaPods" src="https://img.shields.io/cocoapods/v/ExpysSDK?style=flat-square&labelColor=000000&color=9EC1DE" /></a>
+  <a href="https://swift.org/package-manager/"><img alt="SwiftPM" src="https://img.shields.io/badge/SwiftPM-compatible-9EC1DE?style=flat-square&labelColor=000000" /></a>
+  <a href="./LICENSE"><img alt="license MIT" src="https://img.shields.io/badge/license-MIT-9EC1DE?style=flat-square&labelColor=000000" /></a>
+</p>
 
 Official Expys data SDK for Swift. SwiftPM, async/await, URLSession, **zero
 runtime dependencies** (Foundation only). Built in the Swift 6 language mode with
