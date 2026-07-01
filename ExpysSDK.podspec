@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
   s.name             = 'ExpysSDK'
   # Synced from the release tag by the release workflow, mirroring Version.swift.
-  s.version          = '0.0.0'
+  s.version          = '0.2.0'
   s.summary          = 'Official Expys data SDK for Swift: offers, redemptions, eligibility, wallet'
   s.description      = <<-DESC
     ExpysSDK is the official Expys data SDK for Swift. It exposes a small,

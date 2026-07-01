@@ -3,7 +3,7 @@
 /// the spec version.
 public enum ExpysVersion {
   /// This SDK's semantic version. Synced from the release tag at publish time.
-  public static let sdk = "0.1.0"
+  public static let sdk = "0.2.0"
   /// The OpenAPI spec version this SDK was generated against.
   public static let spec = "1.0.0"
   /// The base User-Agent (without the per-client environment/org/suffix).

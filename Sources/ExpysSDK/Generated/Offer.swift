@@ -15,16 +15,18 @@ public struct Offer: Codable, Hashable, Sendable {
     public var description: String
     public var expiresAt: String?
     public var id: String
+    public var images: [String]
     public var kind: String
     public var pointsPrice: Int?
     public var shortDescription: String
     public var title: String
     public var type: String
 
-    public init(description: String, expiresAt: String?, id: String, kind: String, pointsPrice: Int?, shortDescription: String, title: String, type: String) {
+    public init(description: String, expiresAt: String?, id: String, images: [String], kind: String, pointsPrice: Int?, shortDescription: String, title: String, type: String) {
         self.description = description
         self.expiresAt = expiresAt
         self.id = id
+        self.images = images
         self.kind = kind
         self.pointsPrice = pointsPrice
         self.shortDescription = shortDescription
@@ -36,6 +38,7 @@ public struct Offer: Codable, Hashable, Sendable {
         case description
         case expiresAt
         case id
+        case images
         case kind
         case pointsPrice
         case shortDescription
@@ -50,6 +53,7 @@ public struct Offer: Codable, Hashable, Sendable {
         try container.encode(description, forKey: .description)
         try container.encode(expiresAt, forKey: .expiresAt)
         try container.encode(id, forKey: .id)
+        try container.encode(images, forKey: .images)
         try container.encode(kind, forKey: .kind)
         try container.encode(pointsPrice, forKey: .pointsPrice)
         try container.encode(shortDescription, forKey: .shortDescription)
