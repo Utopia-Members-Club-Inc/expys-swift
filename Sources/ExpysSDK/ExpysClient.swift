@@ -346,6 +346,31 @@ public struct ExpysClient: Sendable {
     return try await transport.request(method: "GET", path: "/v1/members/\(encoded)")
   }
 
+  /// List the org's members, newest-first. Cursor-paginate with `cursor` until
+  /// the response's `nextCursor` is nil. Server-only.
+  /// - Parameters:
+  ///   - tier: Return only members whose effective tier matches this value exactly.
+  ///   - limit: Maximum number of members to return (1-100).
+  ///   - cursor: Pagination cursor from a previous response's `nextCursor`.
+  /// - Returns: A ``ListMembersResponse`` plus the next `nextCursor`.
+  /// - Throws: ``ExpysError/notConfigured(_:)`` when configured with a member token.
+  public func listMembers(
+    tier: String? = nil,
+    limit: Int? = nil,
+    cursor: String? = nil
+  ) async throws -> ListMembersResponse {
+    try assertMachineCredential(configuredToken, method: "listMembers")
+    return try await transport.request(
+      method: "GET",
+      path: "/v1/members",
+      query: [
+        "tier": tier,
+        "limit": limit.map(String.init),
+        "cursor": cursor,
+      ]
+    )
+  }
+
   /// Remove (archive) a member by their external id. Idempotent by HTTP semantics
   /// (DELETE), so no idempotency key is sent. Server-only.
   /// - Parameters:
@@ -383,6 +408,19 @@ public struct ExpysClient: Sendable {
   public func analyticsOffers() async throws -> GetAnalyticsOffersResponse {
     try assertMachineCredential(configuredToken, method: "analyticsOffers")
     return try await transport.request(method: "GET", path: "/v1/analytics/offers")
+  }
+
+  /// The org's points balance, credit limit, lifetime pool spend, and settlement
+  /// mode. Server-only; requires the `BILLING_READ` scope.
+  ///
+  /// In `ORG_POOL` mode no per-redemption webhook fires, so poll this to track a
+  /// balance your VIPs' bookings are drawing down. An org with no pool yet reports
+  /// zeros rather than erroring.
+  /// - Returns: A ``GetBalanceResponse``.
+  /// - Throws: ``ExpysError/notConfigured(_:)`` when configured with a member token.
+  public func balance() async throws -> GetBalanceResponse {
+    try assertMachineCredential(configuredToken, method: "balance")
+    return try await transport.request(method: "GET", path: "/v1/balance")
   }
 
   /// Time-bucketed analytics over a window. Server-only.

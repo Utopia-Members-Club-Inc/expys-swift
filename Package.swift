@@ -27,6 +27,7 @@ let exampleNames = [
   "Conversations",
   "StreamMessages",
   "ServerMode",
+  "Balance",
 ]
 
 let exampleTargets: [Target] = exampleNames.map { name in
