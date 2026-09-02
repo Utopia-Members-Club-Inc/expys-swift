@@ -14,15 +14,18 @@ public struct Currency: Codable, Hashable, Sendable {
 
     public var name: String
     public var symbol: String
+    public var unitsPerUSD: Double
 
-    public init(name: String, symbol: String) {
+    public init(name: String, symbol: String, unitsPerUSD: Double) {
         self.name = name
         self.symbol = symbol
+        self.unitsPerUSD = unitsPerUSD
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case symbol
+        case unitsPerUSD
     }
 
     // Encodable protocol methods
@@ -31,6 +34,7 @@ public struct Currency: Codable, Hashable, Sendable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(name, forKey: .name)
         try container.encode(symbol, forKey: .symbol)
+        try container.encode(unitsPerUSD, forKey: .unitsPerUSD)
     }
 }
 

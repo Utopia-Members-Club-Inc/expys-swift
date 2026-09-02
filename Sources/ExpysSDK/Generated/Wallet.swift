@@ -13,21 +13,39 @@ import AnyCodable
 public struct Wallet: Codable, Hashable, Sendable {
 
     public var amountReceived: Double
+    public var amountReceivedDisplay: Int
+    public var amountReceivedUSD: Double
     public var amountSpent: Double
+    public var amountSpentDisplay: Int
+    public var amountSpentUSD: Double
     public var balance: Double
+    public var balanceDisplay: Int
+    public var balanceUSD: Double
     public var currency: Currency
 
-    public init(amountReceived: Double, amountSpent: Double, balance: Double, currency: Currency) {
+    public init(amountReceived: Double, amountReceivedDisplay: Int, amountReceivedUSD: Double, amountSpent: Double, amountSpentDisplay: Int, amountSpentUSD: Double, balance: Double, balanceDisplay: Int, balanceUSD: Double, currency: Currency) {
         self.amountReceived = amountReceived
+        self.amountReceivedDisplay = amountReceivedDisplay
+        self.amountReceivedUSD = amountReceivedUSD
         self.amountSpent = amountSpent
+        self.amountSpentDisplay = amountSpentDisplay
+        self.amountSpentUSD = amountSpentUSD
         self.balance = balance
+        self.balanceDisplay = balanceDisplay
+        self.balanceUSD = balanceUSD
         self.currency = currency
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case amountReceived
+        case amountReceivedDisplay
+        case amountReceivedUSD
         case amountSpent
+        case amountSpentDisplay
+        case amountSpentUSD
         case balance
+        case balanceDisplay
+        case balanceUSD
         case currency
     }
 
@@ -36,8 +54,14 @@ public struct Wallet: Codable, Hashable, Sendable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(amountReceived, forKey: .amountReceived)
+        try container.encode(amountReceivedDisplay, forKey: .amountReceivedDisplay)
+        try container.encode(amountReceivedUSD, forKey: .amountReceivedUSD)
         try container.encode(amountSpent, forKey: .amountSpent)
+        try container.encode(amountSpentDisplay, forKey: .amountSpentDisplay)
+        try container.encode(amountSpentUSD, forKey: .amountSpentUSD)
         try container.encode(balance, forKey: .balance)
+        try container.encode(balanceDisplay, forKey: .balanceDisplay)
+        try container.encode(balanceUSD, forKey: .balanceUSD)
         try container.encode(currency, forKey: .currency)
     }
 }

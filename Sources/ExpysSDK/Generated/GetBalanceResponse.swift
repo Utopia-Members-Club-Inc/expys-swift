@@ -17,21 +17,36 @@ public struct GetBalanceResponse: Codable, Hashable, Sendable {
         case orgPool = "ORG_POOL"
     }
     public var balance: Int
+    public var balanceDisplay: Int
+    public var balanceUSD: Double
     public var creditLimit: Int
+    public var creditLimitUSD: Double
     public var lifetimeSpent: Int
+    public var lifetimeSpentUSD: Double
+    public var ratePerPoint: Double
     public var settlementMode: SettlementMode
 
-    public init(balance: Int, creditLimit: Int, lifetimeSpent: Int, settlementMode: SettlementMode) {
+    public init(balance: Int, balanceDisplay: Int, balanceUSD: Double, creditLimit: Int, creditLimitUSD: Double, lifetimeSpent: Int, lifetimeSpentUSD: Double, ratePerPoint: Double, settlementMode: SettlementMode) {
         self.balance = balance
+        self.balanceDisplay = balanceDisplay
+        self.balanceUSD = balanceUSD
         self.creditLimit = creditLimit
+        self.creditLimitUSD = creditLimitUSD
         self.lifetimeSpent = lifetimeSpent
+        self.lifetimeSpentUSD = lifetimeSpentUSD
+        self.ratePerPoint = ratePerPoint
         self.settlementMode = settlementMode
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case balance
+        case balanceDisplay
+        case balanceUSD
         case creditLimit
+        case creditLimitUSD
         case lifetimeSpent
+        case lifetimeSpentUSD
+        case ratePerPoint
         case settlementMode
     }
 
@@ -40,8 +55,13 @@ public struct GetBalanceResponse: Codable, Hashable, Sendable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(balance, forKey: .balance)
+        try container.encode(balanceDisplay, forKey: .balanceDisplay)
+        try container.encode(balanceUSD, forKey: .balanceUSD)
         try container.encode(creditLimit, forKey: .creditLimit)
+        try container.encode(creditLimitUSD, forKey: .creditLimitUSD)
         try container.encode(lifetimeSpent, forKey: .lifetimeSpent)
+        try container.encode(lifetimeSpentUSD, forKey: .lifetimeSpentUSD)
+        try container.encode(ratePerPoint, forKey: .ratePerPoint)
         try container.encode(settlementMode, forKey: .settlementMode)
     }
 }

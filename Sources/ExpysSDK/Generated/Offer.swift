@@ -12,53 +12,89 @@ import AnyCodable
 
 public struct Offer: Codable, Hashable, Sendable {
 
+    public var availability: Availability
     public var description: String
+    public var disclaimer: String?
+    public var display: Display?
+    public var endAt: String?
     public var expiresAt: String?
     public var id: String
     public var images: [String]
+    public var inclusions: [Inclusions]
     public var kind: String
+    public var location: Location?
+    public var maxGuests: Int?
     public var pointsPrice: Int?
     public var shortDescription: String
+    public var startAt: String?
     public var title: String
     public var type: String
+    public var valueUSD: Double?
 
-    public init(description: String, expiresAt: String?, id: String, images: [String], kind: String, pointsPrice: Int?, shortDescription: String, title: String, type: String) {
+    public init(availability: Availability, description: String, disclaimer: String?, display: Display?, endAt: String?, expiresAt: String?, id: String, images: [String], inclusions: [Inclusions], kind: String, location: Location?, maxGuests: Int?, pointsPrice: Int?, shortDescription: String, startAt: String?, title: String, type: String, valueUSD: Double?) {
+        self.availability = availability
         self.description = description
+        self.disclaimer = disclaimer
+        self.display = display
+        self.endAt = endAt
         self.expiresAt = expiresAt
         self.id = id
         self.images = images
+        self.inclusions = inclusions
         self.kind = kind
+        self.location = location
+        self.maxGuests = maxGuests
         self.pointsPrice = pointsPrice
         self.shortDescription = shortDescription
+        self.startAt = startAt
         self.title = title
         self.type = type
+        self.valueUSD = valueUSD
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case availability
         case description
+        case disclaimer
+        case display
+        case endAt
         case expiresAt
         case id
         case images
+        case inclusions
         case kind
+        case location
+        case maxGuests
         case pointsPrice
         case shortDescription
+        case startAt
         case title
         case type
+        case valueUSD
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(availability, forKey: .availability)
         try container.encode(description, forKey: .description)
+        try container.encode(disclaimer, forKey: .disclaimer)
+        try container.encode(display, forKey: .display)
+        try container.encode(endAt, forKey: .endAt)
         try container.encode(expiresAt, forKey: .expiresAt)
         try container.encode(id, forKey: .id)
         try container.encode(images, forKey: .images)
+        try container.encode(inclusions, forKey: .inclusions)
         try container.encode(kind, forKey: .kind)
+        try container.encode(location, forKey: .location)
+        try container.encode(maxGuests, forKey: .maxGuests)
         try container.encode(pointsPrice, forKey: .pointsPrice)
         try container.encode(shortDescription, forKey: .shortDescription)
+        try container.encode(startAt, forKey: .startAt)
         try container.encode(title, forKey: .title)
         try container.encode(type, forKey: .type)
+        try container.encode(valueUSD, forKey: .valueUSD)
     }
 }
 

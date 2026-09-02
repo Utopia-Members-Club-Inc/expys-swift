@@ -12,6 +12,16 @@ import AnyCodable
 
 public struct Redemption: Codable, Hashable, Sendable {
 
+    public enum CanceledReason: String, Codable, CaseIterable, Sendable {
+        case soldOut = "SOLD_OUT"
+        case vendorDeclined = "VENDOR_DECLINED"
+        case dateUnavailable = "DATE_UNAVAILABLE"
+        case memberRequested = "MEMBER_REQUESTED"
+        case expired = "EXPIRED"
+        case other = "OTHER"
+    }
+    public var canceledNote: String?
+    public var canceledReason: CanceledReason?
     public var createdAt: String
     public var endAt: String?
     public var id: String
@@ -19,7 +29,9 @@ public struct Redemption: Codable, Hashable, Sendable {
     public var startAt: String?
     public var status: String
 
-    public init(createdAt: String, endAt: String?, id: String, offer: String, startAt: String?, status: String) {
+    public init(canceledNote: String?, canceledReason: CanceledReason?, createdAt: String, endAt: String?, id: String, offer: String, startAt: String?, status: String) {
+        self.canceledNote = canceledNote
+        self.canceledReason = canceledReason
         self.createdAt = createdAt
         self.endAt = endAt
         self.id = id
@@ -29,6 +41,8 @@ public struct Redemption: Codable, Hashable, Sendable {
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case canceledNote
+        case canceledReason
         case createdAt
         case endAt
         case id
@@ -41,6 +55,8 @@ public struct Redemption: Codable, Hashable, Sendable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(canceledNote, forKey: .canceledNote)
+        try container.encode(canceledReason, forKey: .canceledReason)
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(endAt, forKey: .endAt)
         try container.encode(id, forKey: .id)
