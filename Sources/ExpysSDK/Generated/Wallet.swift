@@ -13,17 +13,17 @@ import AnyCodable
 public struct Wallet: Codable, Hashable, Sendable {
 
     public var amountReceived: Double
-    public var amountReceivedDisplay: Int
+    public var amountReceivedDisplay: Double
     public var amountReceivedUSD: Double
     public var amountSpent: Double
-    public var amountSpentDisplay: Int
+    public var amountSpentDisplay: Double
     public var amountSpentUSD: Double
     public var balance: Double
-    public var balanceDisplay: Int
+    public var balanceDisplay: Double
     public var balanceUSD: Double
     public var currency: Currency
 
-    public init(amountReceived: Double, amountReceivedDisplay: Int, amountReceivedUSD: Double, amountSpent: Double, amountSpentDisplay: Int, amountSpentUSD: Double, balance: Double, balanceDisplay: Int, balanceUSD: Double, currency: Currency) {
+    public init(amountReceived: Double, amountReceivedDisplay: Double, amountReceivedUSD: Double, amountSpent: Double, amountSpentDisplay: Double, amountSpentUSD: Double, balance: Double, balanceDisplay: Double, balanceUSD: Double, currency: Currency) {
         self.amountReceived = amountReceived
         self.amountReceivedDisplay = amountReceivedDisplay
         self.amountReceivedUSD = amountReceivedUSD

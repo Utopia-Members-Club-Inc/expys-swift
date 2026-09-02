@@ -12,17 +12,24 @@ import AnyCodable
 
 public struct Display: Codable, Hashable, Sendable {
 
-    public var amount: Int
+    public enum Source: String, Codable, CaseIterable, Sendable {
+        case authored = "AUTHORED"
+        case derived = "DERIVED"
+    }
+    public var amount: Double
     public var currency: Currency
+    public var source: Source
 
-    public init(amount: Int, currency: Currency) {
+    public init(amount: Double, currency: Currency, source: Source) {
         self.amount = amount
         self.currency = currency
+        self.source = source
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case amount
         case currency
+        case source
     }
 
     // Encodable protocol methods
@@ -31,6 +38,7 @@ public struct Display: Codable, Hashable, Sendable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(amount, forKey: .amount)
         try container.encode(currency, forKey: .currency)
+        try container.encode(source, forKey: .source)
     }
 }
 

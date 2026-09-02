@@ -17,7 +17,7 @@ public struct GetBalanceResponse: Codable, Hashable, Sendable {
         case orgPool = "ORG_POOL"
     }
     public var balance: Int
-    public var balanceDisplay: Int
+    public var balanceDisplay: Double
     public var balanceUSD: Double
     public var creditLimit: Int
     public var creditLimitUSD: Double
@@ -26,7 +26,7 @@ public struct GetBalanceResponse: Codable, Hashable, Sendable {
     public var ratePerPoint: Double
     public var settlementMode: SettlementMode
 
-    public init(balance: Int, balanceDisplay: Int, balanceUSD: Double, creditLimit: Int, creditLimitUSD: Double, lifetimeSpent: Int, lifetimeSpentUSD: Double, ratePerPoint: Double, settlementMode: SettlementMode) {
+    public init(balance: Int, balanceDisplay: Double, balanceUSD: Double, creditLimit: Int, creditLimitUSD: Double, lifetimeSpent: Int, lifetimeSpentUSD: Double, ratePerPoint: Double, settlementMode: SettlementMode) {
         self.balance = balance
         self.balanceDisplay = balanceDisplay
         self.balanceUSD = balanceUSD
