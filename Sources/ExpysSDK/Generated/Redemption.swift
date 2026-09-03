@@ -22,6 +22,7 @@ public struct Redemption: Codable, Hashable, Sendable {
     }
     public var canceledNote: String?
     public var canceledReason: CanceledReason?
+    public var conversationId: String?
     public var createdAt: String
     public var endAt: String?
     public var id: String
@@ -29,9 +30,10 @@ public struct Redemption: Codable, Hashable, Sendable {
     public var startAt: String?
     public var status: String
 
-    public init(canceledNote: String?, canceledReason: CanceledReason?, createdAt: String, endAt: String?, id: String, offer: String, startAt: String?, status: String) {
+    public init(canceledNote: String?, canceledReason: CanceledReason?, conversationId: String?, createdAt: String, endAt: String?, id: String, offer: String, startAt: String?, status: String) {
         self.canceledNote = canceledNote
         self.canceledReason = canceledReason
+        self.conversationId = conversationId
         self.createdAt = createdAt
         self.endAt = endAt
         self.id = id
@@ -43,6 +45,7 @@ public struct Redemption: Codable, Hashable, Sendable {
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case canceledNote
         case canceledReason
+        case conversationId
         case createdAt
         case endAt
         case id
@@ -57,6 +60,7 @@ public struct Redemption: Codable, Hashable, Sendable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(canceledNote, forKey: .canceledNote)
         try container.encode(canceledReason, forKey: .canceledReason)
+        try container.encode(conversationId, forKey: .conversationId)
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(endAt, forKey: .endAt)
         try container.encode(id, forKey: .id)
