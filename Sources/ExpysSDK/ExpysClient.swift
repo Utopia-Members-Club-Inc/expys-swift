@@ -4,8 +4,11 @@ import Foundation
 /// an optional refresh closure; every call retries 429/5xx with backoff and
 /// sends an idempotency key on writes.
 public struct ExpysClient: Sendable {
-  private let transport: Transport
-  private let streamTransport: StreamTransport
+  /// Module-internal rather than private: `private` is FILE-scoped in Swift, and the
+  /// interest and terms methods live in extensions in their own files. Still invisible
+  /// outside the module, so nothing is exposed to a consumer.
+  let transport: Transport
+  let streamTransport: StreamTransport
   /// The credential the client was configured with. Server-mode methods check it
   /// is a machine (Org-API-Key) credential before issuing any request. Machine
   /// credentials are long-lived and never refreshed, so this is authoritative.
