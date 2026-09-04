@@ -12,13 +12,15 @@ import AnyCodable
 
 public struct Message: Codable, Hashable, Sendable {
 
+    public var attachments: [Attachments]
     public var authorID: String
     public var body: String?
     public var createdAt: String
     public var id: String
     public var type: String
 
-    public init(authorID: String, body: String?, createdAt: String, id: String, type: String) {
+    public init(attachments: [Attachments], authorID: String, body: String?, createdAt: String, id: String, type: String) {
+        self.attachments = attachments
         self.authorID = authorID
         self.body = body
         self.createdAt = createdAt
@@ -27,6 +29,7 @@ public struct Message: Codable, Hashable, Sendable {
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case attachments
         case authorID
         case body
         case createdAt
@@ -38,6 +41,7 @@ public struct Message: Codable, Hashable, Sendable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(attachments, forKey: .attachments)
         try container.encode(authorID, forKey: .authorID)
         try container.encode(body, forKey: .body)
         try container.encode(createdAt, forKey: .createdAt)

@@ -13,15 +13,18 @@ import AnyCodable
 public struct CreateRedemptionRequest: Codable, Hashable, Sendable {
 
     public var externalUserID: String?
+    public var interest: String?
     public var offer: String
 
-    public init(externalUserID: String? = nil, offer: String) {
+    public init(externalUserID: String? = nil, interest: String? = nil, offer: String) {
         self.externalUserID = externalUserID
+        self.interest = interest
         self.offer = offer
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case externalUserID
+        case interest
         case offer
     }
 
@@ -30,6 +33,7 @@ public struct CreateRedemptionRequest: Codable, Hashable, Sendable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(externalUserID, forKey: .externalUserID)
+        try container.encodeIfPresent(interest, forKey: .interest)
         try container.encode(offer, forKey: .offer)
     }
 }

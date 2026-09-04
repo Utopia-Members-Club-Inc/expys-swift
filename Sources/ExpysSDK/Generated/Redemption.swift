@@ -25,17 +25,19 @@ public struct Redemption: Codable, Hashable, Sendable {
     public var conversationId: String?
     public var createdAt: String
     public var endAt: String?
+    public var feedback: Feedback?
     public var id: String
     public var offer: String
     public var startAt: String?
     public var status: String
 
-    public init(canceledNote: String?, canceledReason: CanceledReason?, conversationId: String?, createdAt: String, endAt: String?, id: String, offer: String, startAt: String?, status: String) {
+    public init(canceledNote: String?, canceledReason: CanceledReason?, conversationId: String?, createdAt: String, endAt: String?, feedback: Feedback?, id: String, offer: String, startAt: String?, status: String) {
         self.canceledNote = canceledNote
         self.canceledReason = canceledReason
         self.conversationId = conversationId
         self.createdAt = createdAt
         self.endAt = endAt
+        self.feedback = feedback
         self.id = id
         self.offer = offer
         self.startAt = startAt
@@ -48,6 +50,7 @@ public struct Redemption: Codable, Hashable, Sendable {
         case conversationId
         case createdAt
         case endAt
+        case feedback
         case id
         case offer
         case startAt
@@ -63,6 +66,7 @@ public struct Redemption: Codable, Hashable, Sendable {
         try container.encode(conversationId, forKey: .conversationId)
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(endAt, forKey: .endAt)
+        try container.encode(feedback, forKey: .feedback)
         try container.encode(id, forKey: .id)
         try container.encode(offer, forKey: .offer)
         try container.encode(startAt, forKey: .startAt)

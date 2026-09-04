@@ -12,25 +12,31 @@ import AnyCodable
 
 public struct OfferAnalytics: Codable, Hashable, Sendable {
 
+    public var averageRating: Double?
     public var cancellations: Double
     public var completions: Double
     public var offerId: String
     public var pointsSpent: Double
+    public var ratingCount: Int
     public var signups: Double
 
-    public init(cancellations: Double, completions: Double, offerId: String, pointsSpent: Double, signups: Double) {
+    public init(averageRating: Double?, cancellations: Double, completions: Double, offerId: String, pointsSpent: Double, ratingCount: Int, signups: Double) {
+        self.averageRating = averageRating
         self.cancellations = cancellations
         self.completions = completions
         self.offerId = offerId
         self.pointsSpent = pointsSpent
+        self.ratingCount = ratingCount
         self.signups = signups
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case averageRating
         case cancellations
         case completions
         case offerId
         case pointsSpent
+        case ratingCount
         case signups
     }
 
@@ -38,10 +44,12 @@ public struct OfferAnalytics: Codable, Hashable, Sendable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(averageRating, forKey: .averageRating)
         try container.encode(cancellations, forKey: .cancellations)
         try container.encode(completions, forKey: .completions)
         try container.encode(offerId, forKey: .offerId)
         try container.encode(pointsSpent, forKey: .pointsSpent)
+        try container.encode(ratingCount, forKey: .ratingCount)
         try container.encode(signups, forKey: .signups)
     }
 }
