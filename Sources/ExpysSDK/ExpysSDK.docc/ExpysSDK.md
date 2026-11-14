@@ -55,7 +55,11 @@ sends an `Idempotency-Key` on writes.
 
 ### Offers
 
-- ``ExpysClient/listOffers(limit:cursor:)``
+- ``ExpysClient/listOffers(limit:cursor:available:)``
+- ``ExpysClient/getOffer(id:)``
+- ``ExpysClient/setOfferPrice(id:_:)``
+- ``ExpysClient/deleteOfferPrice(id:)``
+- ``ExpysClient/updateConfiguration(_:)``
 - ``Offer``
 - ``OfferList``
 

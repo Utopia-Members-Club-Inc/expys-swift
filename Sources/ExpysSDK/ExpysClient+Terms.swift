@@ -47,7 +47,7 @@ extension ExpysClient {
     _ input: AcceptTermsRequest,
     idempotencyKey: String? = nil
   ) async throws -> GetTermsResponse {
-    let body = try JSONEncoder().encode(input)
+    let body = try ExpysJSON.encoder().encode(input)
     return try await transport.request(
       method: "POST",
       path: "/v1/terms/acceptance",
@@ -65,7 +65,7 @@ extension ExpysClient {
     _ input: SetRedemptionFeedbackRequest
   ) async throws -> Redemption {
     let encoded = id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? id
-    let body = try JSONEncoder().encode(input)
+    let body = try ExpysJSON.encoder().encode(input)
     return try await transport.request(
       method: "PUT",
       path: "/v1/redemptions/\(encoded)/feedback",

@@ -12,19 +12,25 @@ import AnyCodable
 
 public struct SetMemberRequest: Codable, Hashable, Sendable {
 
+    public var asOf: Date?
     public var attributes: [String: AnyCodable]?
     public var displayName: String?
+    public var signals: MemberSignalsInput?
     public var tier: String?
 
-    public init(attributes: [String: AnyCodable]? = nil, displayName: String? = nil, tier: String? = nil) {
+    public init(asOf: Date? = nil, attributes: [String: AnyCodable]? = nil, displayName: String? = nil, signals: MemberSignalsInput? = nil, tier: String? = nil) {
+        self.asOf = asOf
         self.attributes = attributes
         self.displayName = displayName
+        self.signals = signals
         self.tier = tier
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case asOf
         case attributes
         case displayName
+        case signals
         case tier
     }
 
@@ -32,8 +38,10 @@ public struct SetMemberRequest: Codable, Hashable, Sendable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(asOf, forKey: .asOf)
         try container.encodeIfPresent(attributes, forKey: .attributes)
         try container.encodeIfPresent(displayName, forKey: .displayName)
+        try container.encodeIfPresent(signals, forKey: .signals)
         try container.encodeIfPresent(tier, forKey: .tier)
     }
 }

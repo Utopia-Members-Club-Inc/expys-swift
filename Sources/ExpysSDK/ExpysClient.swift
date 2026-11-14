@@ -12,7 +12,8 @@ public struct ExpysClient: Sendable {
   /// The credential the client was configured with. Server-mode methods check it
   /// is a machine (Org-API-Key) credential before issuing any request. Machine
   /// credentials are long-lived and never refreshed, so this is authoritative.
-  private let configuredToken: String
+  /// Internal (not private) so the server-only signals extension can check it too.
+  let configuredToken: String
 
   /// Creates a client from a configuration.
   /// - Parameters:
@@ -85,12 +86,22 @@ public struct ExpysClient: Sendable {
   /// - Parameters:
   ///   - limit: Maximum number of offers to return.
   ///   - cursor: Pagination cursor from a previous response's `nextCursor`.
+  ///   - available: `true` leaves out sold-out offers (`quantityRemaining` of 0). Nil
+  ///     or `false` returns every offer, sold-out ones included.
   /// - Returns: An ``OfferList`` of offers plus the next `nextCursor`.
-  public func listOffers(limit: Int? = nil, cursor: String? = nil) async throws -> OfferList {
+  public func listOffers(
+    limit: Int? = nil,
+    cursor: String? = nil,
+    available: Bool? = nil
+  ) async throws -> OfferList {
     try await transport.request(
       method: "GET",
       path: "/v1/offers",
-      query: ["limit": limit.map(String.init), "cursor": cursor]
+      query: [
+        "limit": limit.map(String.init),
+        "cursor": cursor,
+        "available": available.map { $0 ? "true" : "false" },
+      ]
     )
   }
 
@@ -108,7 +119,7 @@ public struct ExpysClient: Sendable {
     _ input: CreateRedemptionRequest,
     idempotencyKey: String? = nil
   ) async throws -> Redemption {
-    let body = try JSONEncoder().encode(input)
+    let body = try ExpysJSON.encoder().encode(input)
     return try await transport.request(
       method: "POST",
       path: "/v1/redemptions",
@@ -225,7 +236,7 @@ public struct ExpysClient: Sendable {
     idempotencyKey: String? = nil
   ) async throws -> SendMessageResponse {
     let encoded = id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? id
-    let body = try JSONEncoder().encode(SendMessageRequest(message: message))
+    let body = try ExpysJSON.encoder().encode(SendMessageRequest(message: message))
     return try await transport.request(
       method: "POST",
       path: "/v1/conversations/\(encoded)/messages",
@@ -288,7 +299,7 @@ public struct ExpysClient: Sendable {
     idempotencyKey: String? = nil
   ) async throws -> TokenGrant {
     try assertMachineCredential(configuredToken, method: "exchangeToken")
-    let body = try JSONEncoder().encode(input)
+    let body = try ExpysJSON.encoder().encode(input)
     return try await transport.request(
       method: "POST",
       path: "/v1/auth/exchange",
@@ -309,7 +320,7 @@ public struct ExpysClient: Sendable {
     idempotencyKey: String? = nil
   ) async throws -> CreditWalletResponse {
     try assertMachineCredential(configuredToken, method: "creditPoints")
-    let body = try JSONEncoder().encode(input)
+    let body = try ExpysJSON.encoder().encode(input)
     return try await transport.request(
       method: "POST",
       path: "/v1/wallet/credit",
@@ -333,7 +344,7 @@ public struct ExpysClient: Sendable {
     let encoded =
       externalUserID.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
       ?? externalUserID
-    let body = try JSONEncoder().encode(input)
+    let body = try ExpysJSON.encoder().encode(input)
     return try await transport.request(method: "PUT", path: "/v1/members/\(encoded)", body: body)
   }
 
@@ -355,12 +366,18 @@ public struct ExpysClient: Sendable {
   ///   - tier: Return only members whose effective tier matches this value exactly.
   ///   - limit: Maximum number of members to return (1-100).
   ///   - cursor: Pagination cursor from a previous response's `nextCursor`.
+  ///   - valueBand: Return only members whose current `valueBand` signal is this value.
+  ///   - activityBand: Return only members whose current `activityBand` signal is this value.
+  ///   - vipStatus: Return only members with this derived VIP status.
   /// - Returns: A ``ListMembersResponse`` plus the next `nextCursor`.
   /// - Throws: ``ExpysError/notConfigured(_:)`` when configured with a member token.
   public func listMembers(
     tier: String? = nil,
     limit: Int? = nil,
-    cursor: String? = nil
+    cursor: String? = nil,
+    valueBand: MemberSignals.ValueBand? = nil,
+    activityBand: MemberSignals.ActivityBand? = nil,
+    vipStatus: MemberSummary.VipStatus? = nil
   ) async throws -> ListMembersResponse {
     try assertMachineCredential(configuredToken, method: "listMembers")
     return try await transport.request(
@@ -370,6 +387,9 @@ public struct ExpysClient: Sendable {
         "tier": tier,
         "limit": limit.map(String.init),
         "cursor": cursor,
+        "valueBand": valueBand?.rawValue,
+        "activityBand": activityBand?.rawValue,
+        "vipStatus": vipStatus?.rawValue,
       ]
     )
   }
@@ -458,7 +478,7 @@ public struct ExpysClient: Sendable {
     idempotencyKey: String? = nil
   ) async throws -> WebhookEndpointWithSecret {
     try assertMachineCredential(configuredToken, method: "createWebhook")
-    let body = try JSONEncoder().encode(input)
+    let body = try ExpysJSON.encoder().encode(input)
     return try await transport.request(
       method: "POST",
       path: "/v1/webhooks",

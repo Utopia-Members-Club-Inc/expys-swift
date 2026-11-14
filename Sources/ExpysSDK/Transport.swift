@@ -132,7 +132,7 @@ struct Transport: Sendable {
 
   private func decode<T: Decodable>(_ data: Data) throws -> T {
     do {
-      return try JSONDecoder().decode(T.self, from: data)
+      return try ExpysJSON.decoder().decode(T.self, from: data)
     } catch {
       throw ExpysError.decoding(String(describing: error))
     }

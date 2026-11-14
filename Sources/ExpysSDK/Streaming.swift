@@ -258,7 +258,7 @@ struct StreamTransport: Sendable {
 
   private func decode<T: Decodable>(_ payload: String) throws -> T {
     do {
-      return try JSONDecoder().decode(T.self, from: Data(payload.utf8))
+      return try ExpysJSON.decoder().decode(T.self, from: Data(payload.utf8))
     } catch {
       throw ExpysError.decoding(String(describing: error))
     }

@@ -21,7 +21,7 @@ extension ExpysClient {
     _ input: CreateInterestRequest,
     idempotencyKey: String? = nil
   ) async throws -> CreateInterestResponse {
-    let body = try JSONEncoder().encode(input)
+    let body = try ExpysJSON.encoder().encode(input)
     return try await transport.request(
       method: "POST",
       path: "/v1/interests",
@@ -47,7 +47,7 @@ extension ExpysClient {
     _ input: SetInterestIntakeRequest
   ) async throws -> CreateInterestResponse {
     let encoded = id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? id
-    let body = try JSONEncoder().encode(input)
+    let body = try ExpysJSON.encoder().encode(input)
     return try await transport.request(
       method: "PUT",
       path: "/v1/interests/\(encoded)/intake",
@@ -79,7 +79,7 @@ extension ExpysClient {
     _ input: ConfirmPhoneVerificationRequest
   ) async throws -> ConfirmPhoneVerificationResponse {
     let encoded = id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? id
-    let body = try JSONEncoder().encode(input)
+    let body = try ExpysJSON.encoder().encode(input)
     return try await transport.request(
       method: "PUT",
       path: "/v1/interests/\(encoded)/phone/verification",

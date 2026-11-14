@@ -12,11 +12,13 @@ import AnyCodable
 
 public struct Offer: Codable, Hashable, Sendable {
 
+    public var addOns: [String]
     public var availability: Availability
     public var description: String
     public var disclaimer: String?
     public var display: Display?
     public var endAt: String?
+    public var exclusions: [String]
     public var expiresAt: String?
     public var id: String
     public var images: [String]
@@ -31,12 +33,14 @@ public struct Offer: Codable, Hashable, Sendable {
     public var type: String
     public var valueUSD: Double?
 
-    public init(availability: Availability, description: String, disclaimer: String?, display: Display?, endAt: String?, expiresAt: String?, id: String, images: [String], inclusions: [Inclusions], kind: String, location: Location?, maxGuests: Int?, pointsPrice: Int?, shortDescription: String, startAt: String?, title: String, type: String, valueUSD: Double?) {
+    public init(addOns: [String], availability: Availability, description: String, disclaimer: String?, display: Display?, endAt: String?, exclusions: [String], expiresAt: String?, id: String, images: [String], inclusions: [Inclusions], kind: String, location: Location?, maxGuests: Int?, pointsPrice: Int?, shortDescription: String, startAt: String?, title: String, type: String, valueUSD: Double?) {
+        self.addOns = addOns
         self.availability = availability
         self.description = description
         self.disclaimer = disclaimer
         self.display = display
         self.endAt = endAt
+        self.exclusions = exclusions
         self.expiresAt = expiresAt
         self.id = id
         self.images = images
@@ -53,11 +57,13 @@ public struct Offer: Codable, Hashable, Sendable {
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case addOns
         case availability
         case description
         case disclaimer
         case display
         case endAt
+        case exclusions
         case expiresAt
         case id
         case images
@@ -77,11 +83,13 @@ public struct Offer: Codable, Hashable, Sendable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(addOns, forKey: .addOns)
         try container.encode(availability, forKey: .availability)
         try container.encode(description, forKey: .description)
         try container.encode(disclaimer, forKey: .disclaimer)
         try container.encode(display, forKey: .display)
         try container.encode(endAt, forKey: .endAt)
+        try container.encode(exclusions, forKey: .exclusions)
         try container.encode(expiresAt, forKey: .expiresAt)
         try container.encode(id, forKey: .id)
         try container.encode(images, forKey: .images)

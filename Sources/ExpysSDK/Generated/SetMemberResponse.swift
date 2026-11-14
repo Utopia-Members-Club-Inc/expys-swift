@@ -15,12 +15,14 @@ public struct SetMemberResponse: Codable, Hashable, Sendable {
     public var attributes: [String: AnyCodable]?
     public var displayName: String?
     public var externalUserID: String
+    public var signals: MemberSignals?
     public var tier: String
 
-    public init(attributes: [String: AnyCodable]?, displayName: String?, externalUserID: String, tier: String) {
+    public init(attributes: [String: AnyCodable]?, displayName: String?, externalUserID: String, signals: MemberSignals?, tier: String) {
         self.attributes = attributes
         self.displayName = displayName
         self.externalUserID = externalUserID
+        self.signals = signals
         self.tier = tier
     }
 
@@ -28,6 +30,7 @@ public struct SetMemberResponse: Codable, Hashable, Sendable {
         case attributes
         case displayName
         case externalUserID
+        case signals
         case tier
     }
 
@@ -38,6 +41,7 @@ public struct SetMemberResponse: Codable, Hashable, Sendable {
         try container.encode(attributes, forKey: .attributes)
         try container.encode(displayName, forKey: .displayName)
         try container.encode(externalUserID, forKey: .externalUserID)
+        try container.encode(signals, forKey: .signals)
         try container.encode(tier, forKey: .tier)
     }
 }

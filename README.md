@@ -124,6 +124,15 @@ repeat {
 } while cursor != nil
 ```
 
+Pass `available: true` to leave out sold-out offers; nil (or `false`) returns every
+offer. `getOffer(id:)` reads the same shape for a deep link and throws
+`ExpysError.api` with `kind == .notFound` for an id your org cannot see:
+
+```swift
+let bookable = try await client.listOffers(limit: 50, available: true)
+let offer = try await client.getOffer(id: "off_123")
+```
+
 ## Redemptions
 
 ```swift
@@ -229,9 +238,17 @@ Never ship an Org-API-Key in an iOS/macOS app or any client.
 | `client.setMember(externalUserID:_:)`                        | `PUT /v1/members/{externalUserID}`    |
 | `client.getMember(externalUserID:)`                          | `GET /v1/members/{externalUserID}`    |
 | `client.removeMember(externalUserID:retainBalance:)`         | `DELETE /v1/members/{externalUserID}` |
+| `client.importMembers(_:dryRun:idempotencyKey:)` | `POST /v1/members/batch` |
+| `client.getSignalHistory(externalUserID:from:to:limit:cursor:)` | `GET /v1/members/{externalUserID}/signals/history` |
 | `client.analyticsSummary()`                                  | `GET /v1/analytics/summary`       |
 | `client.analyticsOffers()`                                   | `GET /v1/analytics/offers`        |
 | `client.analyticsTimeseries(from:to:interval:)`              | `GET /v1/analytics/timeseries`    |
+| `client.getAnalyticsSegments(from:to:groupBy:)` | `GET /v1/analytics/segments` |
+| `client.getAnalyticsLift(from:to:)` | `GET /v1/analytics/lift` |
+| `client.balance()`                                           | `GET /v1/balance`                 |
+| `client.setOfferPrice(id:_:)`                                | `PUT /v1/offers/{id}/price`       |
+| `client.deleteOfferPrice(id:)`                               | `DELETE /v1/offers/{id}/price`    |
+| `client.updateConfiguration(_:)`                             | `PUT /v1/configuration`           |
 | `client.createWebhook(_:idempotencyKey:)`                    | `POST /v1/webhooks`               |
 | `client.listWebhooks()`                                      | `GET /v1/webhooks`                |
 | `client.deleteWebhook(id:)`                                  | `DELETE /v1/webhooks/{id}`        |
@@ -240,9 +257,11 @@ If you configure the SDK with a member token (a `v4.local.…` PASETO) and call 
 of these, the SDK **fails fast client-side** with `ExpysError.notConfigured`
 **before any network request** — the credential is classified as a machine
 credential iff it starts with `expys_`. The server **also** enforces this: a member
-token is `403`'d via the route auth matrix. The three POSTs (`exchangeToken`,
-`creditPoints`, `createWebhook`) auto-send an `Idempotency-Key` like the other
-writes; the `PUT` and `DELETE`s are idempotent by HTTP semantics and send no key.
+token is `403`'d via the route auth matrix. The four POSTs (`exchangeToken`,
+`creditPoints`, `createWebhook`, `importMembers`) auto-send an `Idempotency-Key` like
+the other writes; the `PUT`s and `DELETE`s are idempotent by HTTP semantics and send no
+key. `setOfferPrice`, `deleteOfferPrice` and `updateConfiguration` need the
+`CONFIG_WRITE` scope, which a new key does not have by default.
 
 ```swift
 // Backend only — never in a client app.

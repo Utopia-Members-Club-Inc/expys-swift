@@ -12,19 +12,35 @@ import AnyCodable
 
 public struct MemberSummary: Codable, Hashable, Sendable {
 
+    public enum VipStatus: String, Codable, CaseIterable, Sendable {
+        case unknown = "UNKNOWN"
+        case lapsed = "LAPSED"
+        case reactivated = "REACTIVATED"
+        case cooling = "COOLING"
+        case new = "NEW"
+        case active = "ACTIVE"
+    }
     public var attributes: [String: AnyCodable]?
     public var displayName: String?
     public var externalUserID: String
     public var redemptionCounts: RedemptionCounts
+    public var signals: MemberSignals?
+    public var signalsUpdatedAt: Date?
     public var tier: String
+    public var vipStatus: VipStatus
+    public var vipStatusAt: Date?
     public var wallet: Wallet
 
-    public init(attributes: [String: AnyCodable]?, displayName: String?, externalUserID: String, redemptionCounts: RedemptionCounts, tier: String, wallet: Wallet) {
+    public init(attributes: [String: AnyCodable]?, displayName: String?, externalUserID: String, redemptionCounts: RedemptionCounts, signals: MemberSignals?, signalsUpdatedAt: Date?, tier: String, vipStatus: VipStatus, vipStatusAt: Date?, wallet: Wallet) {
         self.attributes = attributes
         self.displayName = displayName
         self.externalUserID = externalUserID
         self.redemptionCounts = redemptionCounts
+        self.signals = signals
+        self.signalsUpdatedAt = signalsUpdatedAt
         self.tier = tier
+        self.vipStatus = vipStatus
+        self.vipStatusAt = vipStatusAt
         self.wallet = wallet
     }
 
@@ -33,7 +49,11 @@ public struct MemberSummary: Codable, Hashable, Sendable {
         case displayName
         case externalUserID
         case redemptionCounts
+        case signals
+        case signalsUpdatedAt
         case tier
+        case vipStatus
+        case vipStatusAt
         case wallet
     }
 
@@ -45,7 +65,11 @@ public struct MemberSummary: Codable, Hashable, Sendable {
         try container.encode(displayName, forKey: .displayName)
         try container.encode(externalUserID, forKey: .externalUserID)
         try container.encode(redemptionCounts, forKey: .redemptionCounts)
+        try container.encode(signals, forKey: .signals)
+        try container.encode(signalsUpdatedAt, forKey: .signalsUpdatedAt)
         try container.encode(tier, forKey: .tier)
+        try container.encode(vipStatus, forKey: .vipStatus)
+        try container.encode(vipStatusAt, forKey: .vipStatusAt)
         try container.encode(wallet, forKey: .wallet)
     }
 }
