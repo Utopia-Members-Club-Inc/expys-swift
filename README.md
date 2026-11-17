@@ -240,11 +240,16 @@ Never ship an Org-API-Key in an iOS/macOS app or any client.
 | `client.removeMember(externalUserID:retainBalance:)`         | `DELETE /v1/members/{externalUserID}` |
 | `client.importMembers(_:dryRun:idempotencyKey:)` | `POST /v1/members/batch` |
 | `client.getSignalHistory(externalUserID:from:to:limit:cursor:)` | `GET /v1/members/{externalUserID}/signals/history` |
+| `client.setMemberActivity(externalUserID:_:idempotencyKey:)` | `PUT /v1/members/{externalUserID}/activity` |
+| `client.getMemberActivity(externalUserID:)` | `GET /v1/members/{externalUserID}/activity` |
+| `client.importMemberActivity(_:dryRun:idempotencyKey:)` | `POST /v1/members/activity/batch` |
 | `client.analyticsSummary()`                                  | `GET /v1/analytics/summary`       |
 | `client.analyticsOffers()`                                   | `GET /v1/analytics/offers`        |
 | `client.analyticsTimeseries(from:to:interval:)`              | `GET /v1/analytics/timeseries`    |
 | `client.getAnalyticsSegments(from:to:groupBy:)` | `GET /v1/analytics/segments` |
 | `client.getAnalyticsLift(from:to:)` | `GET /v1/analytics/lift` |
+| `client.getExperienceImpact(from:to:window:offer:status:limit:cursor:)` | `GET /v1/analytics/impact` |
+| `client.getExperienceImpactSummary(from:to:window:metric:)` | `GET /v1/analytics/impact/summary` |
 | `client.balance()`                                           | `GET /v1/balance`                 |
 | `client.setOfferPrice(id:_:)`                                | `PUT /v1/offers/{id}/price`       |
 | `client.deleteOfferPrice(id:)`                               | `DELETE /v1/offers/{id}/price`    |
@@ -257,10 +262,11 @@ If you configure the SDK with a member token (a `v4.local.…` PASETO) and call 
 of these, the SDK **fails fast client-side** with `ExpysError.notConfigured`
 **before any network request** — the credential is classified as a machine
 credential iff it starts with `expys_`. The server **also** enforces this: a member
-token is `403`'d via the route auth matrix. The four POSTs (`exchangeToken`,
-`creditPoints`, `createWebhook`, `importMembers`) auto-send an `Idempotency-Key` like
-the other writes; the `PUT`s and `DELETE`s are idempotent by HTTP semantics and send no
-key. `setOfferPrice`, `deleteOfferPrice` and `updateConfiguration` need the
+token is `403`'d via the route auth matrix. The five POSTs (`exchangeToken`,
+`creditPoints`, `createWebhook`, `importMembers`, `importMemberActivity`) auto-send
+an `Idempotency-Key` like the other writes; the `PUT`s and `DELETE`s are idempotent
+by HTTP semantics and send no key (`setMemberActivity` sends one only when you pass
+`idempotencyKey`). `setOfferPrice`, `deleteOfferPrice` and `updateConfiguration` need the
 `CONFIG_WRITE` scope, which a new key does not have by default.
 
 ```swift

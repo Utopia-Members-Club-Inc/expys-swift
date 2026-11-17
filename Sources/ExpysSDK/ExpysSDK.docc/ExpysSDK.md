@@ -82,6 +82,34 @@ sends an `Idempotency-Key` on writes.
 - ``Wallet``
 - ``Currency``
 
+### VIP Activity and Experience Impact
+
+Server-only: these need an Org-API-Key machine credential.
+
+- ``ExpysClient/setMemberActivity(externalUserID:_:idempotencyKey:)``
+- ``ExpysClient/getMemberActivity(externalUserID:)``
+- ``ExpysClient/importMemberActivity(_:dryRun:idempotencyKey:)``
+- ``ExpysClient/getExperienceImpact(from:to:window:offer:status:limit:cursor:)``
+- ``ExpysClient/getExperienceImpactSummary(from:to:window:metric:)``
+- ``SetMemberActivityRequest``
+- ``ActivityMonth``
+- ``ActivityValue``
+- ``MemberActivity``
+- ``MemberActivityWriteResult``
+- ``ImportMemberActivityRequest``
+- ``MemberActivityImportRow``
+- ``MemberActivityImportReport``
+- ``MemberActivityImportError``
+- ``ExperienceImpactPage``
+- ``ExperienceImpactRow``
+- ``MetricImpact``
+- ``ImpactComparison``
+- ``ExperienceImpactSummary``
+- ``ExperienceImpactCell``
+- ``ImpactSummaryCell``
+- ``WinBack``
+- ``WinBackGroup``
+
 ### Errors
 
 - ``ExpysError``
